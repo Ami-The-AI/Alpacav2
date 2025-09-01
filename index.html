@@ -97,7 +97,7 @@
       input.value = "";
 
       try {
-        const res = await fetch("/api/alpaca", {
+        const res = await fetch("/api/script.js", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: userMsg })
