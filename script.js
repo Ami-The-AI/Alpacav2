@@ -1,6 +1,5 @@
 // frontend/script.js
 
-// Now the backend URL is a relative path since it's served from the same domain
 const BACKEND_URL = ''; 
 
 document.getElementById('send-button').addEventListener('click', async () => {
@@ -18,7 +17,7 @@ document.getElementById('send-button').addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ prompt }),
+            body: JSON.stringify({ prompt }), // <-- CORRECT KEY!
         });
 
         if (!response.ok) {
@@ -26,7 +25,7 @@ document.getElementById('send-button').addEventListener('click', async () => {
         }
 
         const data = await response.json();
-        responseDiv.textContent = data.message;
+        responseDiv.textContent = data.message; // <-- CORRECT KEY!
     } catch (error) {
         console.error('Error:', error);
         responseDiv.textContent = 'Error: Could not connect to the server.';
