@@ -11,5 +11,12 @@ app.post('/api/chat', async (req, res) => {
   } catch (error) {
     console.error('Error calling OpenAI API:', error);
     res.status(500).json({ error: 'Failed to get a response from the AI.' });
-  }
+  } 
+  
+  app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
 });
+
+
+
+
