@@ -1,3 +1,6 @@
+
+import dotenv from "dotenv"
+dotenv.config()
 // frontend/script.js
 
 const BACKEND_URL = ''; 
