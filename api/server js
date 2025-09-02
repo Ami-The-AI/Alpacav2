@@ -1,0 +1,44 @@
+
+// backend/server.js
+const express = require('express');
+const cors = require('cors');
+const OpenAI = require('openai');
+const path = require('path'); // Import the path module
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Serve static files from the 'frontend' directory
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
+// Define the POST endpoint for the AI chat
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    res.json({ message: response.choices.message.content });
+  } catch (error) {
+    console.error('Error calling OpenAI API:', error);
+    res.status(500).json({ error: 'Failed to get a response from the AI.' });
+  }
+});
+
+// A catch-all route to serve the index.html for any other requests
+// This is important for single-page apps so all routes lead to your frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
